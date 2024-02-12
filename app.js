@@ -1,7 +1,7 @@
 const fs = require('fs');
 const chalk = require('chalk')
 const yargs = require('yargs')
-const {addNote , getNotes}  = require('./notes')
+const {addNote , getNotes, removeNote}  = require('./notes')
 
  //fs.writeFileSync('notes.txt',' file was created by Node.js!')
 //  fs.appendFileSync('notes.txt','Tarun')
@@ -29,8 +29,15 @@ yargs.command({
 yargs.command({
     command: 'remove',
     describe: 'Remove a note',
-    handler: function() {
-        console.log("Removing the note")
+    builder : {
+        title : {
+            describe: "Note title",
+            demandOption: true,
+            type: 'string'
+        }
+    },
+    handler: function(argv) {
+        removeNote(argv.title)
     }
 })
 yargs.command({
