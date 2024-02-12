@@ -1,4 +1,5 @@
 const fs = require("fs");
+const chalk = require('chalk')
 
 const getNotes = function () {
   return "Your Notes";
@@ -12,13 +13,25 @@ const addNote = function (title, body) {
       title: title,
       body: body,
     });
-    console.log("Note added");
+    console.log(chalk.green("Note added"));
   } else {
-    console.log("Note title already exist");
+    console.log(chalk.red("Note title already exist"));
   }
 
   saveNotes(notes);
 };
+
+//remove notes
+const removeNote = function (title) {
+    const notes = loadNotes();
+    const newElements = notes.filter((note) => note.title !== title)
+    if(newElements.length === notes.length){
+        console.log(chalk.red("No such title found"))
+    } else {
+        saveNotes(newElements)
+        console.log(chalk.green('Successfully deleted'))
+    }
+}
 
 const saveNotes = function (notes) {
   const dataJSON = JSON.stringify(notes);
@@ -35,4 +48,6 @@ const loadNotes = function () {
   }
 };
 
-module.exports = { getNotes, addNote };
+
+
+module.exports = { getNotes, addNote , removeNote};
